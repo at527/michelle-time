@@ -16,9 +16,9 @@
         body {
             font-family: serif;
             padding: 10px;
-            background-color: #FDD7E8;
-            color: #5D3244;
-            text-align: center; 
+            background-color: #fdd7e8;
+            color: #5d3244;
+            text-align: center;
         }
         pre {
             background-color: #fff;
@@ -162,8 +162,18 @@
                 const duration = currentZonedDateTime.until(exclusive_anniversary, {
                     largestUnit: "year",
                 });
-                const anniversary_dom = document.querySelector("#exclusive_anniversary");
-                anniversary_dom.innerHTML = display_countdown(duration);
+
+                console.log(duration.total("seconds"));
+                if (duration.total("seconds") > 0) {
+                    const anniversary_dom = document.querySelector("#exclusive_anniversary");
+                    anniversary_dom.innerHTML = display_countdown(duration);
+                } else {
+                    const zero = exclusive_anniversary.until(exclusive_anniversary, {
+                        largestUnit: "year",
+                    });
+                    anniversary_dom.innerHTML = display_countdown(zero);
+                    
+                }
             }
 
             function updateTimeSince(current, past) {
