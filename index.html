@@ -4,7 +4,14 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Michelle and Andrew Time</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
     </head>
+
     <style>
         body {
             font-family: sans-serif;
@@ -19,15 +26,39 @@
             white-space: pre-wrap; /* Ensure the text wraps */
             word-wrap: break-word; /* Prevent overflow */
         }
+        time {
+            font-family: sans-serif;
+            /* font-weight: 500;
+            font-size: 16px; */
+        }
+        table {
+            /* width: 100%; */
+            border-collapse: separate;
+            /* border-spacing: 10px; */
+        }
+
+        td {
+            text-align: right;
+            padding: 8px;
+        }
+
+        div {
+            margin-bottom: 100px;
+        }
     </style>
 
     <body>
-        <h3>Exclusive Anniversary Countdown</h3>
-        <div id="exclusive_anniversary"></div>
+        <h1>Michelle and Andrew's</h1>
+        <div id="countdown">
+            <h3>Exclusive Anniversary Countdown</h3>
+            <time id="exclusive_anniversary"></time>
+        </div>
 
-        <h3>How Long since Andrew and Michelle...</h3>
-        <h4>became exclusive:</h4>
-        <p id="exclusive"></p>
+        <div id="countup">
+            <h3>How Long since Andrew and Michelle...</h3>
+            <h4>became exclusive:</h4>
+            <time id="time-since-exclusive"></time>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.2.5/global.min.js"></script>
 
@@ -87,7 +118,30 @@
 
             function display_countdown(duration) {
                 let d = duration;
-                return `${d.hours} h ${d.minutes} m ${d.seconds} s`;
+                return `<table>
+            <tr>
+                <td>${d.hours} h</td>
+                <td>${d.minutes} m</td>
+                <td>${d.seconds} s</td>
+            </tr>
+        </table>`;
+            }
+
+            function display_time_since(duration) {
+                let d = duration;
+                return `<table>
+            <tr>
+                <td>${d.years} y</td>
+                <td>${d.months} m</td>
+                <td>${d.days} d</td>
+            </tr>
+            <tr>
+                <td>${d.hours} h</td>
+                <td>${d.minutes} m</td>
+                <td>${d.seconds} s</td>
+            </tr>
+        </table>`;
+                // return `${d.years} y ${d.months} m ${d.days} d <br>${d.hours} h ${d.minutes} m ${d.seconds}s`;
             }
 
             function updateCountdown(currentZonedDateTime) {
@@ -95,18 +149,20 @@
                     largestUnit: "year",
                 });
                 const anniversary_dom = document.querySelector("#exclusive_anniversary");
-                anniversary_dom.textContent = display_countdown(duration);
+                anniversary_dom.innerHTML = display_countdown(duration);
+            }
+
+            function updateTimeSince(current, past) {
+                const duration = current.since(past, { largestUnit: "year" });
+                const exclusive_dom = document.querySelector("#time-since-exclusive");
+                exclusive_dom.innerHTML = display_time_since(duration);
             }
 
             function update() {
                 const currentZonedDateTime = Temporal.Now.zonedDateTimeISO("America/Los_Angeles");
-                const duration = currentZonedDateTime.since(exclusive_start, {
-                    largestUnit: "year",
-                });
-                const exclusive_dom = document.querySelector("#exclusive");
-                exclusive_dom.textContent = prettyPrintDuration(duration);
 
                 updateCountdown(currentZonedDateTime);
+                updateTimeSince(currentZonedDateTime, exclusive_start);
             }
             update();
             setInterval(update, 1000);
