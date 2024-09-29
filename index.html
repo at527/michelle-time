@@ -14,7 +14,10 @@
 
     <style>
         body {
-            font-family: sans-serif;
+            font-family: serif;
+            padding: 10px;
+            background-color: #fbaed2;
+            color: #5D3244
         }
         pre {
             background-color: #fff;
@@ -28,8 +31,8 @@
         }
         time {
             font-family: sans-serif;
-            /* font-weight: 500;
-            font-size: 16px; */
+            font-weight: 500;
+            font-size: 18px;
         }
         table {
             /* width: 100%; */
@@ -42,23 +45,33 @@
             padding: 8px;
         }
 
-        div {
+        section {
             margin-bottom: 100px;
+        }
+
+        .center-time {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            margin: 20px 0; /* Add margin for spacing */
         }
     </style>
 
     <body>
         <h1>Michelle and Andrew's</h1>
-        <div id="countdown">
+        <section id="countdown">
             <h3>Exclusive Anniversary Countdown</h3>
-            <time id="exclusive_anniversary"></time>
-        </div>
+            <div class="center-time">
+                <time id="exclusive_anniversary"></time>
+            </div>
+        </section>
 
-        <div id="countup">
+        <section id="countup">
             <h3>How Long since Andrew and Michelle...</h3>
             <h4>became exclusive:</h4>
-            <time id="time-since-exclusive"></time>
-        </div>
+            <div class="center-time">
+                <time id="time-since-exclusive"></time>
+            </div>
+        </section>
 
         <script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.2.5/global.min.js"></script>
 
